@@ -64,14 +64,19 @@ do
     ### EVEN MORE QUALITY CONTROL GOES HERE! :):)
 
     ### mark duplicate sequences in your aligned data
+    ### for RNA-seq, you don't have to remove duplicate seuqences but why bother to mark?
     picard  -Xmx4g MarkDuplicates INPUT=$file.cutadapt.bam OUTPUT=$file.cutadapt.markdups.bam \
         METRICS_FILE=$file.cutadapt.markdups.bam.metrics &> $file.cutadapt.markdups.log
 
     ### get gene counts based on reference genome annotations for your aligned data
-    featurecounts -T 1 -a references/dm6.gtf -o $file.cutadapt.bam.featurecounts.txt $file.cutadapt.bam \
+    ### -a <input>	Give the name of the annotation file
+    ### -T <int>  	Number of the threads. 1 by default
+    featureCounts -T 1 -a references/dm6.gtf -o $file.cutadapt.bam.featurecounts.txt $file.cutadapt.bam \
     &> $file.cutadapt.bam.featurecounts.txt.log
 
     ### summarize all that wonderful quality control you've done!
+    ### The report is called multiqc_report.html by default. You can use a custom name for the report with the -n/--filename parameter, 
+    ### or instruct MultiQC to create them in a subdirectory using the -o/-outdir parameter.
     LC_ALL=en_US.UTF.8 LC_LANG=en_US.UTF-8 multiqc --outdir data/aggregation/ \
       --force --filename multiqc.html --config multiqc_config.yaml data/rnaseq_samples/ \
       data/aggregration/ &> data/aggregation/multiqc.html.log
