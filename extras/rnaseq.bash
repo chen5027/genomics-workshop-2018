@@ -44,6 +44,9 @@ do
        > $file.cutadapt.bam.log 2>&1
 
     ### remove unmapped reads from the SAM file and convert to BAM
+    # -F Do not output alignments with any bits set in INT present in the FLAG field.
+    # -b Output in the BAM format
+    # -S Ignored for compatibility with previous samtools versions.
     samtools view -Sb -F 0x04 $file.cutadapt.sam > $file.cutadapt.unsorted.bam
 
     ### Remove the original SAM file, which is quite large
