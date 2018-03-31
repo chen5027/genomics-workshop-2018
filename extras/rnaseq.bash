@@ -53,6 +53,7 @@ do
     rm $file.cutadapt.sam
 
     ### Sort the BAM file for later duplicates marking and indexing
+    ### -O FORMAT Write the final output as sam, bam, or cram. 
     samtools sort -o $file.cutadapt.bam -O BAM $file.cutadapt.unsorted.bam
 
     ### Remove the unsorted BAM to conserve space.
